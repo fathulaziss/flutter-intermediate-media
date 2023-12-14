@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:load_url_image/provider/home_provider.dart';
+import 'package:load_url_image/screen/camera_screen.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -108,7 +110,21 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  _onCustomCameraView() async {}
+  _onCustomCameraView() async {
+    final provider = context.read<HomeProvider>();
+    final navigator = Navigator.of(context);
+
+    final cameras = await availableCameras();
+
+    final XFile? resultImageFile = await navigator.push(
+      MaterialPageRoute(builder: (context) => CameraScreen(cameras: cameras)),
+    );
+
+    if (resultImageFile != null) {
+      provider.setImageFile(resultImageFile);
+      provider.setImagePath(resultImageFile.path);
+    }
+  }
 
   Widget _showImage() {
     final imagePath = context.read<HomeProvider>().imagePath;
