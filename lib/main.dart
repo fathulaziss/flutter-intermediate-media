@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:load_url_image/provider/video_provider.dart';
-import 'package:load_url_image/screen/video_screen.dart';
+import 'package:load_url_image/data/api/api_service.dart';
+import 'package:load_url_image/provider/home_provider.dart';
+import 'package:load_url_image/provider/upload_provider.dart';
+import 'package:load_url_image/screen/home_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -12,11 +14,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => VideoProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => HomeProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => UploadProvider(ApiService()),
+        ),
+      ],
       child: MaterialApp(
         theme: ThemeData(primarySwatch: Colors.blue),
-        home: const VideoScreen(),
+        home: const HomeScreen(),
       ),
     );
   }
