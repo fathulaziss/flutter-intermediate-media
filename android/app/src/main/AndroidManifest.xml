@@ -1,5 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dicoding.load_url_image">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    
    <application
         android:label="load_url_image"
         android:name="${applicationName}"
